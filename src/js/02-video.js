@@ -1,28 +1,18 @@
 
-import player from '@vimeo/player'
-console.log(player)
+import Player from '@vimeo/player'
+import throttle from 'lodash.throttle';
+console.log(Player)
 
 
-{/* <iframe
-      id="vimeo-player"
-      src="https://player.vimeo.com/video/236203659"
-      width="640"
-      height="360"
-      frameborder="0"
-      allowfullscreen
-      allow="autoplay; encrypted-media"></iframe>
-
- <script src="js/02-video.js" type="module"></script>
-        
 
     const iframe = document.querySelector('iframe');
-    const player = new Vimeo.Player(iframe);
+    const player = new Player(iframe);
 
-    player.on('play', function() {
-        console.log('played the video!');
-    });
+player.on('timeupdate', throttle(onCurrentTime, 1000));
 
-    player.getVideoTitle().then(function(title) {
-        console.log('title:', title);
-    });
-</script> */}
+function onCurrentTime(data) {
+    const currentTime = data.seconds;
+    localStorage.setItem('videoplayer-current-time', currentTime)
+}
+
+player.setCurrentTime(localStorage.getItem('videoplayer-current-time'))

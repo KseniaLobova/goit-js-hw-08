@@ -11,6 +11,7 @@ const formText = document.querySelector('form textarea')
 
 
 const formData = {};
+// document.addEventListener('DOMContentLoaded',()=>fillForm())
 fillForm()
 // get informatin, send on localstorage
 form.addEventListener('input',throttle(onFormInput,500))
@@ -27,19 +28,20 @@ function onSubmitForm(evt) {
     evt.preventDefault();
     evt.currentTarget.reset();
     localStorage.removeItem('STORAGE_KEY')
-    console.log(formData)
+    console.log(formData);
+    // formData.email = ''
+    // formData.email = ''
 
 }
 
 // check localstorage - empty or no 
 function fillForm() {
-    const savedFormData = JSON.parse(localStorage.getItem("STORAGE_KEY"))
+    const savedFormData =JSON.parse(localStorage.getItem("STORAGE_KEY")) 
     if (savedFormData) {
-        formEmail.value = savedFormData.email;
-        formText.value = savedFormData.message
+        formData.email = savedFormData.email || '';
+        formData.message = savedFormData.message || '';
+        formEmail.value = formData.email;
+        formText.value = formData.message;
        
-    } else {
-        formEmail.value = '';
-        formText.value = '';
-    }
+    } 
 }
