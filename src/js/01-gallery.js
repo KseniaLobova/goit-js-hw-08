@@ -5,9 +5,8 @@ import "simplelightbox/dist/simple-lightbox.min.css"
 import { galleryItems } from './gallery-items';
 // Change code below this line
 console.log(SimpleLightbox)
+
 const gallery = document.querySelector('.gallery')
-
-
 
 function creatCard(arr) {
     return arr.map(({ preview, original, description }) => 
@@ -16,7 +15,6 @@ function creatCard(arr) {
     <img
       class="gallery__image"
       src="${preview}"
-      data-source="${original}"
       alt="${description}"
     />
   </a>
@@ -24,47 +22,14 @@ function creatCard(arr) {
     ).join('')
 }
 
-gallery.insertAdjacentHTML('beforeend', creatCard(galleryItems))
-
-gallery.addEventListener('click', handleCardClick)
+gallery.insertAdjacentHTML('beforeend', creatCard(galleryItems));
 
 
-let currentLightboxInstance = null;
 
-function handleCardClick(evt) {
-  evt.preventDefault();
+console.log(SimpleLightbox)
 
-  if (evt.target === evt.currentTarget) {
-    return
-  }
-    
-   
-  const currentCard = evt.target.dataset.source;
-  console.log(currentCard)
-  if (currentLightboxInstance) {
-    currentLightboxInstance.close()
-  }
-  currentLightboxInstance = basicLightbox.create(`<img src="${currentCard}" />`,
-    {
-      onShow: () => (window.addEventListener('keydown', onEscPress)),
-      
-      onClose: () => {
-        window.removeEventListener('keydown', onEscPress);
-        currentLightboxInstance = null
-      
-      }
-    }
-  )
-  
-  currentLightboxInstance.show()
-
-   
-  function onEscPress(evt) {
-    if (evt.code === 'Escape') { currentLightboxInstance.close() }
-        
-    console.log(evt)
-  }
-}
-
-
+const lightbox = new SimpleLightbox('.gallery a', { 
+    captionsData: 'alt',
+    captionDelay: '250'
+ })
 console.log(galleryItems);
